@@ -122,6 +122,12 @@ def ctrl(status, direction=1):
 		else:
 			print('Argument error! direction must be 1 or -1.')
 	elif status == 0: # Stop
+		if direction == 1:     # Forward
+			forward()
+		elif direction == -1:  # Backward
+			backward()
+		else:
+			print('Argument error! direction must be 1 or -1.')
 		stop()
 	else:
 		print('Argument error! status must be 0 or 1.')
