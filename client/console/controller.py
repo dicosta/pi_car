@@ -3,7 +3,7 @@ from socket import *
 import time
 
 ctrl_cmd = ['forward', 'backward', 'stop', 'speed_slow', 'speed_normal', 'speed_fast', 'speed_faster', 'steer_left_20', 'steer_right_20',
-'pan_left_20', 'pan_right_20', 'tilt_up_20', 'tilt_down_20']
+'pan_left_20', 'pan_right_20', 'tilt_up_20', 'tilt_down_20', 'start_video_stream', 'stop_video_stream']
 
 up=False
 down=False
@@ -13,6 +13,7 @@ tilt_up=False
 tilt_down=False
 pan_left=False
 pan_right=False
+video_started=False
 current_speed=ctrl_cmd[3]
 HOST = '10.0.0.10'    # Server(Raspberry Pi) IP address
 PORT = 21567
@@ -77,6 +78,7 @@ def on_press(key):
     global pan_left
     global pan_right
     global current_speed
+    global video_started
 
     try:
         if (key == keyboard.Key.esc):
@@ -127,6 +129,13 @@ def on_press(key):
         elif (key.char == '4'):
             current_speed=ctrl_cmd[6]
             encode_and_send(current_speed)
+        elif (key.char == 'v'):
+            if (video_started):
+                video_started=False
+                encode_and_send(ctrl_cmd[14])
+            else:
+                video_started=True
+                encode_and_send(ctrl_cmd[13])
                                   
     except:        
         pass
