@@ -6,8 +6,8 @@ import car.video_direction as video_direction
 
 
 class MotorDirection(Enum):
-    FORWARD = 0
-    BACKWARD = 1
+    FORWARD = 1
+    BACKWARD = -1
 
 class MotorState(Enum):
     STOP = 0
@@ -74,6 +74,10 @@ class Car:
         if not isinstance(speed, MotorSpeed):
             raise TypeError('speed must be an instance of MotorSpeed Enum')
         self.motor_speed = speed
+        if (speed == MotorSpeed.STOP.value):
+            self.motor_state = MotorState.STOP
+        else:
+            self.motor_state = MotorState.RUN
         self.__apply_motor_change()
 
     def set_steering_angle(self, angle):
