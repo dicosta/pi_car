@@ -17,56 +17,58 @@ tcpSerSock.listen(5)     					 # The parameter of listen() defines the number of
 mycar = car.Car()
 
 while True:
-	print 'Waiting for connection...'
+	print('Waiting for connection...')
 	# Waiting for connection. Once receiving a connection, the function accept() returns a separate 
 	# client socket for the subsequent communication. By default, the function accept() is a blocking 
 	# one, which means it is suspended before the connection comes.
 	tcpCliSock, addr = tcpSerSock.accept() 
-	print '...connected from :', addr     # Print the IP address of the client connected with the server.
+	print('...connected from :', addr)     # Print the IP address of the client connected with the server.
 
 	while True:
 		data = ''
 		data = tcpCliSock.recv(BUFSIZ)    # Receive data sent from the client. 
 										  # Analyze the command received and control the car accordingly.
+		data = data.decode('utf-8')
+			
 		if not data:
 			break
 		if data == ctrl_cmd[0]:
-			print 'direction forward'			
-			car.set_direction_forward()
+			print('direction forward')
+			mycar.set_direction_forward()
 		elif data == ctrl_cmd[1]:
-			print 'direction backward'			
-			car.set_direction_backward()
+			print('direction backward')			
+			mycar.set_direction_backward()
 		elif data == ctrl_cmd[2]:
-			print 'stop'			
-			car.stop()
+			print('stop')
+			mycar.stop()
 		elif data == ctrl_cmd[3]:
-			print 'set speed slow'			
-			car.set_speed(car.MotorSpeed.SLOW)
+			print('set speed slow')
+			mycar.set_speed(car.MotorSpeed.SLOW)
 		elif data == ctrl_cmd[4]:
-			print 'set speed normal'			
-			car.set_speed(car.MotorSpeed.NORMAL)
+			print('set speed normal')
+			mycar.set_speed(car.MotorSpeed.NORMAL)
 		elif data == ctrl_cmd[5]:
-			print 'set speed fast'			
-			car.set_speed(car.MotorSpeed.FAST)
+			print('set speed fast')
+			mycar.set_speed(car.MotorSpeed.FAST)
 		elif data == ctrl_cmd[6]:
-			print 'set speed faster'			
-			car.set_speed(car.MotorSpeed.FASTER)
+			print('set speed faster')
+			mycar.set_speed(car.MotorSpeed.FASTER)
 		elif data == ctrl_cmd[7]:
-			print 'steer left 20'			
-			car.set_steering_angle(-20)
+			print('steer left 20')
+			mycar.set_steering_angle(-20)
 		elif data == ctrl_cmd[8]:
-			print 'set right 20'			
-			car.set_steering_angle(20)
+			print('set right 20')
+			mycar.set_steering_angle(20)
 
 		elif data[0:12] == 'steer_angle=':	#steering angle
-			print 'data =', data
+			print('data =', data)
 			angle = data.split('=')[1]
 			try:
 				angle = int(angle)
-				car.set_steering_angle(angle)
+				mycar.set_steering_angle(angle)
 			except:
-				print 'Error: angle =', angle
+				print('Error: angle =', angle)
 		else:
-			print 'Command Error! Cannot recognize command: ' + data
+			print('Command Error! Cannot recognize command: ' + data)
 
 tcpSerSock.close()
