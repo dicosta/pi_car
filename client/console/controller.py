@@ -13,6 +13,7 @@ tilt_up=False
 tilt_down=False
 pan_left=False
 pan_right=False
+current_speed=ctrl_cmd[3]
 HOST = '10.0.0.10'    # Server(Raspberry Pi) IP address
 PORT = 21567
 BUFSIZ = 1024             # buffer size
@@ -20,7 +21,8 @@ ADDR = (HOST, PORT)
 
 def encode_and_send(message):
     global tcpCliSock
-    print('encode and send: ' + message)    
+    tcpCliSock.send(message.encode('utf-8'))
+    time.sleep(0.005)
 
 def on_key_release(key):
     global down
@@ -60,7 +62,7 @@ def on_key_release(key):
             tilt_down=False        
             encode_and_send('tilt_angle=0')
     except:
-        print('ignored key release')
+        pass #ignored
 
 def on_press(key):
     global listening
@@ -74,19 +76,19 @@ def on_press(key):
     global tilt_down
     global pan_left
     global pan_right
+    global current_speed
 
     try:
         if (key == keyboard.Key.esc):
             listening = False
-            return False
-        if (key == keyboard.Key.down and not down):
+        elif (key == keyboard.Key.down and not down):
             down = True
             encode_and_send(ctrl_cmd[1])
-            tcpCliSock.send('speed_faster'.encode('utf-8'))
+            encode_and_send(current_speed)            
         elif (key == keyboard.Key.up and not up):
             up=True
             encode_and_send(ctrl_cmd[0])
-            tcpCliSock.send('speed_faster'.encode('utf-8'))
+            encode_and_send(current_speed)
         elif (key == keyboard.Key.left and not left):
             left=True
             encode_and_send(ctrl_cmd[7])
@@ -105,15 +107,25 @@ def on_press(key):
         elif (key.char == 's' and not tilt_down):
             tilt_down=True        
             encode_and_send(ctrl_cmd[12])
+        elif (key.char == '1'):
+            current_speed=ctrl_cmd[3]
+        elif (key.char == '2'):
+            current_speed=ctrl_cmd[4]
+        elif (key.char == '3'):
+            current_speed=ctrl_cmd[5]
+        elif (key.char == '4'):
+            current_speed=ctrl_cmd[6]
+                                  
     except:        
-        print('ignored key release')    
+        pass
     
 
 tcpCliSock = socket(AF_INET, SOCK_STREAM)   # Create a socket
 tcpCliSock.connect(ADDR)                    # Connect with the server    
 
 print('Connected To ' + HOST)
-print('Use wasd to control camera or arrow keys to control direction')
+print('Use WASD to control camera or arrow keys to control direction')
+print('1 to 4 to set up the speed')
 print('press ESC to close')
 
 listener = keyboard.Listener(
@@ -125,3 +137,5 @@ listener.start()
 listening = True
 while listening:
     time.sleep(0.1)
+
+listener.stop()
