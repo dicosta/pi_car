@@ -34,47 +34,47 @@ while True:
 		if not data:
 			break
 		if data == ctrl_cmd[0]:
-			print('direction forward')
+			#print('direction forward')
 			mycar.set_direction_forward()
 		elif data == ctrl_cmd[1]:
-			print('direction backward')			
+			#print('direction backward')			
 			mycar.set_direction_backward()
 		elif data == ctrl_cmd[2]:
-			print('stop')
+			#print('stop')
 			mycar.stop()
 		elif data == ctrl_cmd[3]:
-			print('set speed slow')
+			#print('set speed slow')
 			mycar.set_speed(car.MotorSpeed.SLOW)
 		elif data == ctrl_cmd[4]:
-			print('set speed normal')
+			#print('set speed normal')
 			mycar.set_speed(car.MotorSpeed.NORMAL)
 		elif data == ctrl_cmd[5]:
-			print('set speed fast')
+			#print('set speed fast')
 			mycar.set_speed(car.MotorSpeed.FAST)
 		elif data == ctrl_cmd[6]:
-			print('set speed faster')
+			#print('set speed faster')
 			mycar.set_speed(car.MotorSpeed.FASTER)
 		elif data == ctrl_cmd[7]:
-			print('steer left 20')
+			#print('steer left 20')
 			mycar.set_steering_angle(-20)
 		elif data == ctrl_cmd[8]:
-			print('set right 20')
+			#print('set right 20')
 			mycar.set_steering_angle(20)
 		elif data == ctrl_cmd[9]:
-			print('pan left 20')
+			#print('pan left 20')
 			mycar.set_panning_angle(-20)
 		elif data == ctrl_cmd[10]:
-			print('pan right 20')
+			#print('pan right 20')
 			mycar.set_panning_angle(20)
 		elif data == ctrl_cmd[11]:
-			print('tilt up 20')
-			mycar.set_tilting_angle(20)
-		elif data == ctrl_cmd[12]:
-			print('tilt down 20')
+			#print('tilt up 20')
 			mycar.set_tilting_angle(-20)
+		elif data == ctrl_cmd[12]:
+			#print('tilt down 20')
+			mycar.set_tilting_angle(20)
 
 		elif data[0:12] == 'steer_angle=':	#steering angle
-			print('data =', data)
+			#print('data =', data)
 			angle = data.split('=')[1]
 			try:
 				angle = int(angle)
@@ -83,7 +83,7 @@ while True:
 				print('Error: angle =', angle)
 
 		elif data[0:10] == 'pan_angle=':	#pan angle
-			print('data =', data)
+			#print('data =', data)
 			angle = data.split('=')[1]
 			try:
 				angle = int(angle)
@@ -92,7 +92,7 @@ while True:
 				print('Error: angle =', angle)				
 
 		elif data[0:11] == 'tilt_angle=':	#tilt angle
-			print('data =', data)
+			#print('data =', data)
 			angle = data.split('=')[1]
 			try:
 				angle = int(angle)

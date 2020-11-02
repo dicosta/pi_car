@@ -47,8 +47,11 @@ class Car:
         self.__apply_tilting_and_panning_change()
         
     def __apply_motor_change(self):
-        motor.ctrl(self.motor_state.value, self.motor_direction.value)
-        motor.setSpeed(self.motor_speed.value)
+    	if (self.motor_state == MotorState.RUN):
+    	    	motor.setSpeed(self.motor_speed.value)
+    	else:
+    	    	motor.setSpeed(MotorSpeed.STOP.value)
+    	motor.ctrl(self.motor_state.value, self.motor_direction.value)
 
     def __apply_steering_change(self):
         direction.set_angle(self.__current_steering_angle)
@@ -64,20 +67,18 @@ class Car:
 
     def set_direction_forward(self):
         self.motor_direction = MotorDirection.FORWARD
+        self.motor_state = MotorState.RUN
         self.__apply_motor_change()
 
     def set_direction_backward(self):
         self.motor_direction = MotorDirection.BACKWARD
+        self.motor_state = MotorState.RUN
         self.__apply_motor_change()
 
     def set_speed(self, speed):
         if not isinstance(speed, MotorSpeed):
             raise TypeError('speed must be an instance of MotorSpeed Enum')
-        self.motor_speed = speed
-        if (speed == MotorSpeed.STOP.value):
-            self.motor_state = MotorState.STOP
-        else:
-            self.motor_state = MotorState.RUN
+        self.motor_speed = speed        
         self.__apply_motor_change()
 
     def set_steering_angle(self, angle):
