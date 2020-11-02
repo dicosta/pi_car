@@ -19,6 +19,8 @@ tcpCliSock.connect(ADDR)                    # Connect with the server
 def on_key_release(key):
     global down
     global up
+    global left
+    global right
     global tcpCliSock
     global ctrl_cmd
     if (key == keyboard.Key.down and down):
@@ -29,23 +31,41 @@ def on_key_release(key):
         up=False
         tcpCliSock.send('stop'.encode('utf-8'))
         #print('up released')
+    elif (key == keyboard.Key.left and left):
+        left=False
+        tcpCliSock.send('steer_angle=0'.encode('utf-8'))
+        #print('left released')
+    elif (key == keyboard.Key.right and right):
+        right=False
+        tcpCliSock.send('steer_angle=0'.encode('utf-8'))
+        #print('right released')
 
 def on_press(key):
     global down
     global up
+    global left
+    global right
     global tcpCliSock
     global ctrl_cmd
 
     if (key == keyboard.Key.down and not down):
         down = True
         tcpCliSock.send('backward'.encode('utf-8'))
-        tcpCliSock.send('speed_slow'.encode('utf-8'))
+        tcpCliSock.send('speed_normal'.encode('utf-8'))
         #print('down pressed')
     elif (key == keyboard.Key.up and not up):
         up=True
         tcpCliSock.send('forward'.encode('utf-8'))
-        tcpCliSock.send('speed_slow'.encode('utf-8'))
+        tcpCliSock.send('speed_normal'.encode('utf-8'))
         #print('up pressed')
+    elif (key == keyboard.Key.left and not left):
+        left=True
+        tcpCliSock.send('steer_left_20'.encode('utf-8'))
+        #print('left pressed')
+    elif (key == keyboard.Key.right and not right):
+        right=True
+        tcpCliSock.send('steer_right_20'.encode('utf-8'))
+        #print('right pressed')
 
 #with keyboard.Listener(on_press=on_press, on_release = on_key_release) as listener:
 #    listener.join()
