@@ -83,38 +83,50 @@ def on_press(key):
             listening = False
         elif (key == keyboard.Key.down and not down):
             down = True
+            up = False
+            encode_and_send(current_speed)
             encode_and_send(ctrl_cmd[1])
-            encode_and_send(current_speed)            
         elif (key == keyboard.Key.up and not up):
             up=True
-            encode_and_send(ctrl_cmd[0])
+            down = False
             encode_and_send(current_speed)
+            encode_and_send(ctrl_cmd[0])
         elif (key == keyboard.Key.left and not left):
             left=True
+            right=False
             encode_and_send(ctrl_cmd[7])
         elif (key == keyboard.Key.right and not right):
             right=True
+            left=False
             encode_and_send(ctrl_cmd[8])
         elif (key.char == 'a' and not pan_left):
-            pan_left=True        
+            pan_left=True     
+            pan_right=False   
             encode_and_send(ctrl_cmd[9])
         elif (key.char == 'd' and not pan_right):
-            pan_right=True        
+            pan_right=True
+            pan_left=False        
             encode_and_send(ctrl_cmd[10])
         elif (key.char == 'w' and not tilt_up):
-            tilt_up=True        
+            tilt_up=True
+            tilt_down=False        
             encode_and_send(ctrl_cmd[11])
         elif (key.char == 's' and not tilt_down):
-            tilt_down=True        
+            tilt_down=True 
+            tilt_up=False       
             encode_and_send(ctrl_cmd[12])
         elif (key.char == '1'):
             current_speed=ctrl_cmd[3]
+            encode_and_send(current_speed)
         elif (key.char == '2'):
             current_speed=ctrl_cmd[4]
+            encode_and_send(current_speed)
         elif (key.char == '3'):
             current_speed=ctrl_cmd[5]
+            encode_and_send(current_speed)
         elif (key.char == '4'):
             current_speed=ctrl_cmd[6]
+            encode_and_send(current_speed)
                                   
     except:        
         pass
