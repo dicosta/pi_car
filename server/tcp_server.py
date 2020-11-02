@@ -3,7 +3,8 @@ from socket import *
 from time import ctime          
 import car.car as car
 
-ctrl_cmd = ['forward', 'backward', 'stop', 'speed_slow', 'speed_normal', 'speed_fast', 'speed_faster', 'steer_left_20', 'steer_right_20' ]
+ctrl_cmd = ['forward', 'backward', 'stop', 'speed_slow', 'speed_normal', 'speed_fast', 'speed_faster', 'steer_left_20', 'steer_right_20', 'pan_left_20', 
+'pan_right_20', 'tilt_up_20', 'tilt_down_20' ]
 
 HOST = ''           # The variable of HOST is null, so the function bind( ) can be bound to all valid addresses.
 PORT = 21567
@@ -59,6 +60,18 @@ while True:
 		elif data == ctrl_cmd[8]:
 			print('set right 20')
 			mycar.set_steering_angle(20)
+		elif data == ctrl_cmd[9]:
+			print('pan left 20')
+			mycar.set_panning_angle(-20)
+		elif data == ctrl_cmd[10]:
+			print('pan right 20')
+			mycar.set_panning_angle(20)
+		elif data == ctrl_cmd[11]:
+			print('tilt up 20')
+			mycar.set_tilting_angle(20)
+		elif data == ctrl_cmd[12]:
+			print('tilt down 20')
+			mycar.set_tilting_angle(-20)
 
 		elif data[0:12] == 'steer_angle=':	#steering angle
 			print('data =', data)
@@ -68,6 +81,24 @@ while True:
 				mycar.set_steering_angle(angle)
 			except:
 				print('Error: angle =', angle)
+
+		elif data[0:10] == 'pan_angle=':	#pan angle
+			print('data =', data)
+			angle = data.split('=')[1]
+			try:
+				angle = int(angle)
+				mycar.set_panning_angle(angle)
+			except:
+				print('Error: angle =', angle)				
+
+		elif data[0:11] == 'tilt_angle=':	#tilt angle
+			print('data =', data)
+			angle = data.split('=')[1]
+			try:
+				angle = int(angle)
+				mycar.set_tilting_angle(angle)
+			except:
+				print('Error: angle =', angle)				
 		else:
 			print('Command Error! Cannot recognize command: ' + data)
 
